@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Árbol de Expresión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Colores personalizados */
+        body {
+            background-color: #f3e5f5; /* Fondo lila suave */
+            color: #4a148c; /* Texto morado oscuro */
+        }
+
+        h1 {
+            color: #6a1b9a; /* Título en morado */
+            text-align: center;
+        }
+
+        /* Estilo del input */
+        input {
+            border: 2px solid #8e24aa; /* Borde lila */
+            background-color: #f3e5f5; /* Fondo lila suave */
+            color: #4a148c; /* Texto morado oscuro */
+        }
+
+        /* Botón personalizado */
+        .btn-primary {
+            background-color: #81c784; /* Verde suave */
+            border-color: #66bb6a; /* Verde más intenso */
+        }
+
+        /* Hover en el botón */
+        .btn-primary:hover {
+            background-color: #66bb6a; /* Verde más intenso */
+            border-color: #4caf50; /* Verde aún más oscuro */
+        }
+
+        /* Nodos del árbol */
+        .tree-node {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ab47bc; /* Fondo morado claro */
+            color: white;
+            margin: 10px auto;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        /* Contenedor del árbol */
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Fila del árbol */
+        .row-tree {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+
+        /* Mensajes de error */
+        .error-alert {
+            color: #e91e63; /* Rosa fuerte para mensajes de error */
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="p-5">
+    <div class="container">
+        <h1>Árbol de Expresiones</h1>
+        <div class="mb-3">
+            <input type="text" id="equationInput" class="form-control" placeholder="Escribe una ecuación como (2+3)+(5*5)+(5/6) o 2+8+6">
+        </div>
+        <button id="generateTreeBtn" class="btn btn-primary mb-3">Validar</button>
+        <div id="error" class="error-alert"></div>
+        <div id="treeContainer" class="tree-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
