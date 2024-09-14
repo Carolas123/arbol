@@ -4,14 +4,25 @@ function generateTree() {
     const equation = document.getElementById('equationInput').value;
     const errorContainer = document.getElementById('error');
     const treeContainer = document.getElementById('treeContainer');
+    const recorridosContainer = document.getElementById('recorridosContainer');
+    const preordenElem = document.getElementById('preorden');
+    const inordenElem = document.getElementById('inorden');
+    const posordenElem = document.getElementById('posorden');
 
     // Limpiar errores previos y contenedor de árbol
     errorContainer.innerHTML = '';
     treeContainer.innerHTML = '';
+    recorridosContainer.style.display = 'none';
 
     // Validación de ecuación: sin números negativos o incompleta
     if (/[-]\d/.test(equation)) {
         errorContainer.innerHTML = 'Error: No se permiten números negativos.';
+        return;
+    }
+
+    // Validar paréntesis balanceados
+    if (!areParenthesesBalanced(equation)) {
+        errorContainer.innerHTML = 'Error: Paréntesis no balanceados.';
         return;
     }
 
@@ -20,12 +31,30 @@ function generateTree() {
         const rpnExpression = infixToPostfix(equation);
         const tree = buildTreeFromRPN(rpnExpression);
         renderTree(tree, treeContainer);
+
+        // Mostrar los recorridos del árbol
+        preordenElem.innerText = preorder(tree).join(' ');
+        inordenElem.innerText = inorder(tree).join(' ');
+        posordenElem.innerText = postorder(tree).join(' ');
+        recorridosContainer.style.display = 'block';
+
     } catch (error) {
         errorContainer.innerHTML = 'Error: Ecuación incompleta o inválida.';
     }
 }
 
-// Función para convertir la ecuación infija a notación postfija (RPN)
+function areParenthesesBalanced(equation) {
+    const stack = [];
+    for (const char of equation) {
+        if (char === '(') stack.push(char);
+        if (char === ')') {
+            if (stack.length === 0) return false;
+            stack.pop();
+        }
+    }
+    return stack.length === 0;
+}
+
 function infixToPostfix(equation) {
     const precedence = {
         '+': 1,
@@ -40,7 +69,7 @@ function infixToPostfix(equation) {
 
     tokens.forEach(token => {
         if (!isNaN(token)) {
-            output.push(token); // Si es un número, lo añadimos al resultado
+            output.push(token);
         } else if (token === '(') {
             operators.push(token);
         } else if (token === ')') {
@@ -49,7 +78,6 @@ function infixToPostfix(equation) {
             }
             operators.pop(); // Descartar el '('
         } else {
-            // Es un operador (+, -, *, /)
             while (operators.length && precedence[operators[operators.length - 1]] >= precedence[token]) {
                 output.push(operators.pop());
             }
@@ -57,7 +85,6 @@ function infixToPostfix(equation) {
         }
     });
 
-    // Añadir operadores restantes
     while (operators.length) {
         output.push(operators.pop());
     }
@@ -65,7 +92,6 @@ function infixToPostfix(equation) {
     return output;
 }
 
-// Función para construir un árbol binario a partir de la notación RPN
 function buildTreeFromRPN(tokens) {
     const stack = [];
 
@@ -86,7 +112,6 @@ function buildTreeFromRPN(tokens) {
     return stack[0];
 }
 
-// Renderizar el árbol en el DOM
 function renderTree(node, container) {
     if (!node) return;
 
@@ -103,10 +128,30 @@ function renderTree(node, container) {
         const leftChildContainer = document.createElement('div');
         const rightChildContainer = document.createElement('div');
 
+        // Estilo para los contenedores de hijos
+        leftChildContainer.style.flex = "1";
+        rightChildContainer.style.flex = "1";
+
         renderTree(node.left, leftChildContainer);
         renderTree(node.right, rightChildContainer);
 
         childrenContainer.appendChild(leftChildContainer);
         childrenContainer.appendChild(rightChildContainer);
     }
+}
+
+// Funciones para calcular los recorridos
+function preorder(node) {
+    if (!node) return [];
+    return [node.value].concat(preorder(node.left), preorder(node.right));
+}
+
+function inorder(node) {
+    if (!node) return [];
+    return inorder(node.left).concat([node.value], inorder(node.right));
+}
+
+function postorder(node) {
+    if (!node) return [];
+    return postorder(node.left).concat(postorder(node.right), [node.value]);
 }

@@ -6,37 +6,35 @@
     <title>Generador de Árbol de Expresión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Colores personalizados */
         body {
-            background-color: #f3e5f5; /* Fondo lila suave */
-            color: #4a148c; /* Texto morado oscuro */
+            background-color: #f3e5f5;
+            color: #4a148c;
         }
-
         h1 {
-            color: #6a1b9a; /* Título en morado */
+            color: #6a1b9a;
             text-align: center;
         }
-
-        /* Estilo del input */
         input {
-            border: 2px solid #8e24aa; /* Borde lila */
-            background-color: #f3e5f5; /* Fondo lila suave */
-            color: #4a148c; /* Texto morado oscuro */
+            border: 2px solid #8e24aa;
+            background-color: #f3e5f5;
+            color: #4a148c;
         }
-
-        /* Botón personalizado */
         .btn-primary {
-            background-color: #81c784; /* Verde suave */
-            border-color: #66bb6a; /* Verde más intenso */
+            background-color: #81c784;
+            border-color: #66bb6a;
         }
-
-        /* Hover en el botón */
         .btn-primary:hover {
-            background-color: #66bb6a; /* Verde más intenso */
-            border-color: #4caf50; /* Verde aún más oscuro */
+            background-color: #66bb6a;
+            border-color: #4caf50;
         }
-
-        /* Nodos del árbol */
+        .btn-secundary {
+            background-color: #81c784;
+            border-color: #66bb6a;
+        }
+        .btn-secundary:hover {
+            background-color: #66b7bb;
+            border-color: #4c78af;
+        }
         .tree-node {
             display: flex;
             justify-content: center;
@@ -44,32 +42,50 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background-color: #ab47bc; /* Fondo morado claro */
+            background-color: #ab47bc;
             color: white;
             margin: 10px auto;
             font-size: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
-
-        /* Contenedor del árbol */
+       
+        .tree-node::before {
+            top: -30px;
+            left: 50%;
+        }
+        .tree-node::after {
+            top: 30px;
+            left: 50%;
+        }
         .tree-container {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
-        /* Fila del árbol */
         .row-tree {
             display: flex;
             justify-content: space-evenly;
             width: 100%;
         }
-
-        /* Mensajes de error */
+        .row-tree div {
+            position: relative;
+        }
         .error-alert {
-            color: #e91e63; /* Rosa fuerte para mensajes de error */
+            color: #e91e63;
             font-weight: bold;
             text-align: center;
+        }
+        /* Estilos para la sección de recorridos */
+        .recorridos-container {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #4a148c;
+            background-color: #f3e5f5;
+            color: #4a148c;
+        }
+        .recorridos-container h2 {
+            color: #6a1b9a;
         }
     </style>
 </head>
@@ -77,14 +93,19 @@
     <div class="container">
         <h1>Árbol de Expresiones</h1>
         <div class="mb-3">
-            <input type="text" id="equationInput" class="form-control" placeholder="Escribe una ecuación como (2+3)+(5*5)+(5/6) o 2+8+6">
+            <input type="text" id="equationInput" class="form-control" placeholder="Escribe una ecuación:">
         </div>
-        <button id="generateTreeBtn" class="btn btn-primary mb-3">Validar</button>
+        <button id="generateTreeBtn" class="btn btn-primary w-45 mb-0.5">Validar</button>
+        <button class="btn btn-primary w-45 mt-0.1" onclick="location.reload()">Limpiar</button>
         <div id="error" class="error-alert"></div>
         <div id="treeContainer" class="tree-container"></div>
+        <div id="recorridosContainer" class="recorridos-container" style="display: none;">
+            <h2>Recorridos del Árbol</h2>
+            <p><strong>Preorden:</strong> <span id="preorden"></span></p>
+            <p><strong>Inorden:</strong> <span id="inorden"></span></p>
+            <p><strong>Posorden:</strong> <span id="posorden"></span></p>
+            <script src="app.js"></script>
+        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
